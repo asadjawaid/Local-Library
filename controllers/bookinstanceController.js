@@ -15,7 +15,13 @@ exports.bookinstance_list = (req, res, next) => {
 
 // Display detail page for a specific BookInstance.
 exports.bookinstance_detail = (req, res) => {
-	res.send('NOT IMPLEMENTED: BookInstance detail: ' + req.params.id);
+	BookInstance.findById(req.params.id)
+		.populate('book')
+		.exec((error, results) => {
+			if (error) return next(error);
+
+			res.render('bookinstance_detail', { title: `Copy ${results.book.title}`, bookinstance: results });
+		});
 };
 
 // Display BookInstance create form on GET.

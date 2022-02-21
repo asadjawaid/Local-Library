@@ -99,6 +99,7 @@ router.get('/bookinstance/create', BookInstanceController.bookinstance_create_ge
 
 // POST request for creating BookInstance.
 router.post('/bookinstance/create', BookInstanceController.bookinstance_create_post);
+
 // GET request to delete BookInstance.
 router.get('/bookinstance/:id/delete', BookInstanceController.bookinstance_delete_get);
 
