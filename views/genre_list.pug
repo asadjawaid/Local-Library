@@ -1,0 +1,12 @@
+extends layout
+
+block content
+
+  h1= title
+
+  ul
+    each currentGenre in list_of_genres
+      li
+        a(href=currentGenre.url) #{currentGenre.name}
+    else
+      li There are no genres at the moment.

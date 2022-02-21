@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+
+  ul
+    each currentAuthor in list_of_authors
+      li
+        a(href=currentAuthor.url) #{currentAuthor.name}
+        |  (#{currentAuthor.date_formatted})
+
+    else
+      li There are no authors
