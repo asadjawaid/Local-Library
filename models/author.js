@@ -7,13 +7,13 @@ const AuthorSchema = mongoose.Schema({
 	date_of_death: { type: Date }
 });
 
-// Virtual for author schema:
-AuthorSchema.virtual('name').get(() => {
+// Virtual for author schema: (recall for mongoose virtuals do not use arrow functions)
+AuthorSchema.virtual('name').get(function () {
 	return this.first_name + ' ' + this.family_name;
 });
 
 // Virtual for author's lifespan:
-AuthorSchema.virtual('lifespan').get(() => {
+AuthorSchema.virtual('lifespan').get(function () {
 	let lifetime_string = '';
 	if (this.date_of_birth) {
 		lifetime_string = this.date_of_birth.getYear().toString();
@@ -26,7 +26,7 @@ AuthorSchema.virtual('lifespan').get(() => {
 });
 
 // Virtual for url:
-AuthorSchema.virtual('url').get(() => {
+AuthorSchema.virtual('url').get(function () {
 	return '/catalog/author/' + this._id;
 });
 

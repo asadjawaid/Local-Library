@@ -32,8 +32,20 @@ exports.index = (req, res) => {
 };
 
 // Display list of all books.
-exports.book_list = (req, res) => {
-	res.send('NOT IMPLEMENTED: Book list');
+exports.book_list = (req, res, next) => {
+	// Find all authors (get only title & the author), sort in ascending order, populate the author field, and execute
+	Book.find({}, 'title author')
+		.sort({ title: 1 })
+		.populate('author')
+		.exec((err, list_books) => {
+			// if there are any errors then pass the error to the error handler
+			if (err) {
+				return next(err);
+			}
+
+			// pass the content to the book_list.pug view
+			res.render('book_list', { title: 'Book List', book_list: list_books });
+		});
 };
 
 // Display detail page for a specific book.

@@ -13,7 +13,7 @@ const BookInstanceSchema = mongoose.Schema({
 });
 
 // Virtual for bookinstance's url:
-BookInstanceSchema.virtual('url').get(() => {
+BookInstanceSchema.virtual('url').get(function () {
 	return '/catalog/bookinstance/' + this._id;
 });
 
