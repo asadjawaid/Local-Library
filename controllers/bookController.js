@@ -2,6 +2,7 @@ const Book = require('../models/book');
 const Author = require('../models/author');
 const Genre = require('../models/genre');
 const BookInstance = require('../models/bookinstance');
+const { body, validationResult } = require('express-validator');
 
 // require async package
 const async = require('async');
