@@ -48,13 +48,40 @@ exports.author_detail = (req, res) => {
 
 // Display Author create form on GET.
 exports.author_create_get = (req, res) => {
-	res.send('NOT IMPLEMENTED: Author create GET');
+	res.render('author_form', { title: 'Create Author' });
 };
 
 // Handle Author create on POST.
-exports.author_create_post = (req, res) => {
-	res.send('NOT IMPLEMENTED: Author create POST');
-};
+exports.author_create_post = [
+	body('first_name').trim().isLength({ min: 1 }).escape().withMessage('First name must be specified.'),
+	body('family_name').trim().isLength({ min: 1 }).escape().withMessage('Family name must be specified'),
+	body('date_of_birth', 'Invalid date of birth').optional({ checkFalsy: true }).isISO8601().toDate(),
+	body('date_of_death', 'Invalid date of death').optional({ checkFalsy: true }).isISO8601().toDate(),
+	(req, res, next) => {
+		const errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+			res.render('author_form', { title: 'Create Author', author: req.body, errors: errors.array() });
+			return;
+		} else {
+			// form data is valid and now create a new author with the data provided:
+			let author = new Author({
+				first_name: req.body.first_name,
+				family_name: req.body.family_name,
+				date_of_birth: req.body.date_of_birth,
+				date_of_death: req.body.date_of_death
+			});
+
+			// save to database:
+			author.save(error => {
+				if (error) return next(error);
+
+				// Author added to the database and now redirect to that author's detail page:
+				res.redirect(author.url);
+			});
+		}
+	}
+];
 
 // Display Author delete form on GET.
 exports.author_delete_get = (req, res) => {
