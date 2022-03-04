@@ -99,7 +99,7 @@ exports.author_delete_get = (req, res, next) => {
     (error, results) => {
       if (error) return next(error);
 
-      // check if the author exists:
+      // check if the author does not exist:
       if (results.author === null) {
         res.redirect('/catalog/authors'); // redirect to the list of authors
       }
